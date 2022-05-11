@@ -1,0 +1,71 @@
+Increasingly \emph{Collective adaptive systems} (CAS) crop up in many
+application domains, spanning critical systems, systems assisting
+humans during their working or daily live activities, smart cities.
+%
+A paradigmatic example is the use artificial autonomous agents in
+rescue contexts that may put operators lives at \eMcomm[citare
+qualcosa?]{stake.}
+%
+These agents execute in a cyber-physical context and are supposed to
+exhibit an \emph{adaptive} behaviour.
+%
+This adaptation should be driven by the changes occurring in their
+operational environments, besides by the changes in the local state of
+computation of components, \quo{collectively taken}.
+%
+Also, the \emph{global} behaviour of CAS should \emph{emerge} from the
+\emph{local} behaviour of its components.
+%
+Let us explain this considering the coordination of a number of robots
+patrolling some premises to make sure that aid is promptly given to
+human operators in case of accidents.
+
+A plausible local behaviour of each robot can be:
+\begin{enumerate*}[label=(\arabic*)]
+\item\label{it:accident} to identify accidents,
+\item\label{it:assess} to assess the level of gravity of the situation
+  (so to choose an appropriate course of action),
+\item\label{it:alert} to alert the rescue centre and nearby robots (so
+  to e.g, divert traffic to let rescue vehicles reach the location of
+  the accident more fastly), and
+\item\label{it:state} to ascertain how to respond to alerts from other
+  robots (e.g., if already involved in one accident or on a low
+  battery, a robot my simply forward the alter to other nearby
+  robots).
+\end{enumerate*}
+%
+Note that robots' behaviour depend on the physical environment (tasks
+\cref{it:accident,it:assess,it:alert}) as well as its current state in
+\cref{it:state}.
+
+A possible expected global behaviour is that robots try maximise the
+patrolled area while trying to avoid remaining isolated and to minimise
+the battery consumption.
+%
+It is worth remaking that the global behaviour is not typically
+\emph{explicitly} programmed; it rather should be the resultant
+of the combination of the behaviour of the single components.
+%
+For instance, when designing the algorithm for the roaming one
+could assume that a robot does not move towards an area where
+there already a certain number of robots.
+
+This paper applies behavioural specifications to the quantitative
+analysis of CAS.
+%
+Using a simple, yet representative scenario, we show how to use
+behavioural specifications and use them to study non-functional
+properties of CAS (emergent) behaviour.
+%
+More precisely, we use Petri nets and behavioural types to model a
+robot scenario recently proposed in~\cite{itt20}.
+%
+These two models are rather different and their application allows
+us to make a comparison between the two approaches.
+
+\paragraph{Outline.} \eMcomm[todo]{}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

@@ -1,0 +1,54 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%           ABC           %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\abc}{\textsf{AbC}\xspace}
+\newcommand{\abcST}{\textsf{ABeT}\xspace}
+\newcommand{\abcattr}[1][a]{\textsf{#1}}
+\newcommand{\abccond}[1][\rho]{#1}
+\newcommand{\abcval}[1][v]{\texttt{#1}}
+\newcommand{\abcvar}[1][x]{#1}
+\def\colorExp{\color{NavyBlue}}
+\def\colorTuple{\color{Black}}
+\newcommand{\abcexp}[1][e]{\colorExp #1}
+\newcommandx{\abctuple}[1][1 = t]{\llparenthesis{#1}\rrparenthesis}
+\newcommandx{\abcget}[2][1=a,2={id},usedefault=@]{
+  \ptp[{#1}]{\colorOp .}\abcattr[{#2}]
+}
+\newcommandx{\abcptp}[2][1=a,2=\abccond,usedefault=@]{\ifempty{#1}{}{\ptp[{#1}] \ifempty{#2}{}{{\colorOp \shortmid}}} {#2}}
+\newcommandx{\abcint}[6][1=a,2=\abccond,3=e,4=e',5=b,6=\abccond',usedefault=@]{
+  \abcptp[{#1}][{#2}]
+  \ {\colorOp \xrightarrow{\scriptstyle \abcexp[#3]\quad\abcexp[#4]}}\ 
+  \abcptp[{#5}][{#6}]
+}
+\newcommandx{\mkabcint}[8][3=a,4=\abccond,5=e,6=e',7=b,8=\abccond',usedefault=@]{
+  \node[bblock, #1] (#2) {$\abcint[{#3}][{#4}][{#5}][{#6}][{#7}][{#8}]$};
+}
+
+\tikzset{
+    abccallout/.style={
+      fill=green!10,
+		opacity=.5,
+		overlay,
+		align=center,
+      cloud callout,
+		cloud puffs=15,
+		aspect=2.5,
+		cloud ignores aspect,
+		cloud puff arc=100,
+		shading=ball
+    }
+  }
+
+\newcommandx{\abcP}[6][1=P,2=K,3=.1cm,4=1cm,5=north east,6=proc,usedefault=@]{
+  \begin{tikzpicture}
+	 \node[fill=blue!10, shape=circle] (#6) {$\p[#1]$};
+	 \node[abccallout, above = #3 of #6, xshift=#4, callout absolute pointer={(#6.#5)}] {$#2$}
+	 ;	 
+	 \draw[decorate,decoration={expanding waves,angle=7,segment length = .05cm}] (#6.east) -- ++(.5cm,0)
+	 ;
+  \end{tikzpicture}
+}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

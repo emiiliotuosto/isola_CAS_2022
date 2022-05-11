@@ -1,0 +1,71 @@
+% !TEX root =  main.tex
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{graphicx}
+% \usepackage{subfigure}
+\usepackage{multicol}
+\usepackage[usenames,dvipsnames,svgnames,table]{xcolor} % must be loaded before tikz %% use monochrome option to remove colors
+\usepackage{tikz}
+\usepackage{xstring}
+\usepackage{graphics,framed}
+\usepackage[capitalise]{cleveref}
+\crefformat{enumi}{#2#1#3}\crefname{enumi}{}{}
+\crefname{fact}{Fact}{Facts}
+\Crefname{fact}{Fact}{Facts}
+\crefformat{fact}{Fact~#2#1#3}
+\usepackage{xargs}
+\usepackage{titlecaps}
+\usepackage{listings}
+\usepackage{etoolbox}
+\usepackage{bussproofs}
+\usepackage{etoolbox}
+\usepackage{extarrows}
+% \usepackage{showlabels}
+\usepackage{wrapfig}
+\usepackage{lineno}
+
+\usepackage{listings}
+
+%\usepackage{xypic}
+\usepackage{xspace}
+
+%\usepackage[T1]{fontenc}
+%\usepackage[lighttt]{lmodern}
+\usepackage{minted}
+\AtBeginEnvironment{minted}{\fontsize{7.1}{7.1}\selectfont}
+
+\lstset{
+  basicstyle=\ttfamily\scriptsize,
+  moredelim=[is][\bfseries]{@}{@},
+  columns=fullflexible,
+  keepspaces=true,
+  breaklines=true}
+  
+\usepackage[inline]{enumitem}
+
+% managing draft and final version (uncomment finaltrue to get final)
+\newif\iffinal
+\finaltrue
+\finalfalse
+
+\usepackage[textsize=tiny%
+\iffinal
+,disable%
+\fi
+]{todonotes}
+
+\iffinal
+\else
+% for todo notes
+\setlength{\marginparwidth}{2.2cm}
+\fi
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

@@ -1,0 +1,55 @@
+\documentclass[runningheads,a4paper]{llncs}
+
+\input{packages}
+\input{macros_util}
+\input{ggmacros}
+\input{macros}
+
+%\renewcommand{\MintedPygmentize}{/Library/Frameworks/Python.framework/Versions/3.8/bin/pygmentize}
+
+%
+% NOTE FOR CO-AUTHORS:
+% your own macros for metacomments looks like \xYnote
+% where 'x' (resp. 'Y') is the first (resp. capitalised second) letter
+% of your first name
+%
+
+\begin{document}
+
+\iffinal
+\else
+ \setcounter{tocdepth}{2}
+ \listoffixmes
+ \newpage
+\fi
+
+\input{preamble}
+
+\section{Introduction}\label{sec:intro}
+\input intro
+
+\section{A Robot Scenario}\label{sec:robot}
+\input robot
+
+\subsection{A Petri Net Model}\label{sec:abcSTexample}
+\input pn
+
+\subsection{An Behavioural Sepcification Model}\label{sec:modelling}
+\input st
+
+\section{Quantitative Analysis}\label{sec:analysis}
+\input analysis
+
+\section{Conclusions, Related \& Future Work}\label{sec:conc}%\label{sec:disc}
+\input conc
+
+
+\bibliographystyle{abbrv}
+\bibliography{bib}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

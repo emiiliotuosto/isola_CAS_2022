@@ -1,0 +1,123 @@
+We briefly recall the basic features of \abcST ~\cite{itt20}.
+%
+Basically, \abcST are abstractions blending together \emph{global
+  choreographies}~\cite{gt18,gt16,bcgmmt19}.
+%
+We use a lightweight visual notation instead of a formal
+presentation.
+\hsl
+%
+To this purpose, we use diagrams such as the one in \cref{fig:smp},
+depicting the communication pattern of the SM protocol.
+%
+We now survey the core features of \abcST.
+%
+\begin{figure}[t]
+  \centering
+  \begin{tikzpicture}[node distance=.4cm and .6cm, scale=.75, transform shape]
+    \mkabcint{}{propose}[m][][{\abctuple[{\abcval[p],\abcget[M][id]}]}][{\abctuple[{\abcval[p],\abcvar}]}][w][{\abcattr[id] = \abcval[hd](\abcget[m][prefs])}]
+	 ;
+	 \node[below=of propose](branch){};
+	 \mkabcint{below left= of branch}{old}[W][][{\abctuple[{\abcval[no]}]}][{\abctuple[{\abcval[no]}]}][][{\abcattr[id]}=\abcvar]
+	 \mkabcint{below right= of branch}{new}[W][][{\abctuple[{\abcval[no]}]}][{\abctuple[{\abcval[no]}]}][][{\abcattr[id]=\abcget[w][partner]}]
+	 ;
+	 \mkbranch{old,new}[branch][][-.8];
+	 \mkmerge{old,new}[merge];
+	 \mknseq{propose,branch};
+	 \mkloop[][.1]{propose}{merge};
+  \end{tikzpicture}
+  \caption{\label{fig:smp}A behavioural abstraction of the SM protocol}
+\end{figure}
+
+The diagram in \cref{fig:smp} represents a distributed workflow of
+\emph{interactions}, which are the atomic elements of \abcST; the
+general form of an interaction for CAS is inspired by \abc and takes
+the form
+%
+\begin{align}\label{eq:int}
+  \abcint
+\end{align}
+The intuitive meaning of the interaction in~\eqref{eq:int} is as
+follows:
+\begin{quote}
+  \emph{any} agent, say \p, \emph{satisfying} $\abccond$ generates an
+  expression $\abcexp$ for \emph{any} agents satisfying $\abccond'$,
+  dubbed \q, provided that expression $\abcexp'$ \emph{matches}
+  $\abcexp$.
+\end{quote}
+%
+We anticipate that \p\ and \q\ here are used just for convenience and
+may be omitted for instance writing $\abcint[]$ or
+$\abcint[][@][@][@][]$.
+%
+Also, we abbreviate $\abcptp$ with $\abcptp[@][]$ when $\abccond$ is a
+tautology.
+%
+This allows us to be more succinct.
+%
+For instance, the top-most interaction in \cref{fig:smp} specifies
+that
+\begin{itemize}
+\item all \quo{male} agents propose to the \quo{woman} agent who is
+  top in their preference list by generating a tuple made of the
+  constant value $\abcval[p]$ and their identifier $\abcget[m][id]$
+\item any woman agent whose identifier equals
+  $\abcval[hd](\abcget[m][prefs])$ pattern matches the tuple sent by
+  $\p[m]$ and records in the variable $\abcvar$ the identity of the
+  proposer; in the rest of the diagram \p[w] denotes any such woman.
+\end{itemize}
+
+Interactions such as \eqref{eq:int} introduce already some
+abstractions:
+\begin{itemize}
+\item Similarly to global choreographies, \eqref{eq:int}
+  abstracts away from asynchrony; at the level of this behavioural
+  abstraction interactions are supposed to be atomic.
+\item As in klaimographies, \eqref{eq:int} abstracts away
+  from the number of agents executing the protocol.
+\item As behavioural types,  \eqref{eq:int} abstracts away
+  from the local behaviour of the agents; for instance,
+  it does not tell if/how the local state of agents are
+  changed (if at all) by the interaction.
+\end{itemize}
+
+Interactions are the basic elements of an algebra of
+protocols~\cite{gt18} that allows us to iterate them or compose them
+in non-deterministic choices or in parallel.
+%
+In \cref{fig:smp}, the $\lgateG$-gates mark the entry and exit points
+of the loop of the SM protocol.
+%
+Likewise, the $\orgateG$-gates mark the branching and merging points
+of a non-deterministic choice.
+%
+The \quo{body} of the loop in \cref{fig:smp} yields the choice
+specified by the SM protocol.
+%
+We will also use $\andgateG$-gates to mark forking and joining points
+of parallel protocols.
+
+These abstractions are \quo{compatible} with the pseudocode in
+\cref{sec:intro}.
+%
+In fact, one could assign\footnote{
+  %
+  The assignment should be done with a suitable typing discipline
+  which is out of the scope of this paper.
+  %
+} \mintinline{python}{B} the communication
+pattern of \p[m] in \cref{fig:smp} and to \mintinline{python}{C} the
+communication pattern of \p[w].
+%
+Besides this, other \quo{implementations} of the SM procotol could
+be given those types.
+%
+For instance, \p[m] can also be the type of an agent, say
+\mintinline{python}{R}, that puts back the identifier of a charger in
+its list of preferences once the charger denies the service (so to try
+again later).
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:

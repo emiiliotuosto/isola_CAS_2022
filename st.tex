@@ -1,0 +1,164 @@
+The \emph{interactions} for proposed in~\cite{itt20} are, in their
+most general form, of the form
+%
+\begin{align}\label{eq:int}
+  \abcint
+\end{align}
+%
+and they are meant to capture the following intuition:
+\begin{quote}
+  \quo{\emph{any} agent, say \p, \emph{satisfying} $\abccond$ generates an
+  expression $\abcexp$ for \emph{any} agents satisfying $\abccond'$,
+  dubbed \q, provided that expression $\abcexp'$ \emph{matches}
+  $\abcexp$.}
+\end{quote}
+%
+The conditions $\abccond$ and $\abccond'$ predicate over some
+application-dependent \emph{attributes} exposed by components.
+%
+These conditions are used to address communication partners.
+%
+More precisely, any component whose attributes satisfy $\abccond$
+(resp. $\abccond'$) can act as senders (resp. receiver).
+%
+The payload of an output is a tuple of values $\abcexp$ to be matched
+by the sender with $\abcexp'$; when $\abcexp$ and $\abcexp'$ match,
+the effect of the communication is that the variables in $\abcexp'$
+are instantiated with the corresponding values $\abcexp$.
+
+As said, a send operation targets components satisfying a given
+\emph{predicate} on such attributes.
+%
+For instance, a suitable attribute for the robot scenario considered
+in \cref{sec:intro} is the position of the robot so that a robot at
+position $p$ can send an alert to all robots at a certain distance
+from $p$.
+%
+Likewise, each potential receiver performing a receive operation
+eventually gets messages depending on its receiving predicate $\abccond'$.
+%
+Any other message is disregarded.
+
+Role names \p\ and \q\ in \eqref{eq:int} are pleonastic: they are used
+just for succinctness and may be omitted for instance writing
+$\abcint[]$ or $\abcint[][@][@][@][]$.
+%
+Also, we abbreviate $\abcptp$ with $\abcptp[@][]$ when $\abccond$ is a
+tautology.
+
+Interactions are the basic elements of an algebra of
+protocols~\cite{gt18} featuring iteration as well as non-deterministic
+and parallel composition.
+%
+In the diagrams \eqref{abet:c} and \eqref{abet:d} below (which we
+discuss later), the $\lgateG$-gates mark the entry and exit points of
+loops.
+%
+Likewise, the $\orgateG$-gates mark the branching and merging points
+of a non-deterministic choice.
+%
+Finally, we use $\andgateG$-gates to mark forking and joining points
+of parallel protocols.
+
+Centralised
+\begin{align}\label{abet:c}
+  \begin{tikzpicture}[node distance=.4cm and .6cm, scale=0.9, transform shape]
+	 \node (zero) {};
+	 \mkabcint{below left = of zero}{status}[D][][{
+		\abctuple[{\abcval[status],\abcval[s]}]
+	 }][{
+		\abctuple[{\abcval[status],\abcvar[s]}]
+	 }][C][]
+	 ;
+	 \mkabcint{right = of status}{ask}[r][][{
+		\abctuple[{\abcval[ask], \abcattr[id]}]
+	 }][{
+		\abctuple[{\abcval[ask], \abcvar[r]}]
+	 }][c][]
+	 ;
+	 \mkfork{status,ask}[fork][][-.2];
+	 \mkjoin{status,ask}[join]
+	 ;
+	 \mkabcint{below = 1.5cm of status}{open}[C][][{
+		\abctuple[{\abcval[door],\abcval[o]}]
+	 }][{
+		\abctuple[{\abcval[door],\abcval[o]}]
+	 }][r][]
+	 ;
+	 \mkabcint{right = of open, xshift=.2cm}{closed}[c][][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][r][]
+	 \mkbranch{open,closed}[branch][][-2]
+	 ;
+	 \mkabcint{below left = 2cm of open, xshift = 3cm}{fclosed}[r][][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][c][]
+	 ;
+	 \node[draw,right = of fclosed](dummy){};
+	 \mkbranch{dummy,fclosed}[fbranch][][-3.7];
+	 \mkmerge{dummy,fclosed}[fmerge];
+	 ;
+	 \mknseq{open,fbranch};
+	 ;
+	 \mknseq{join,branch};
+	 \mkmerge{fmerge,closed}[merge][][3]
+	 \mkloop[.3][-5.5]{fork}{merge};
+	 %
+	 % \node[right = of status, xshift=-3cm, yshift=-.6cm, fill=green!10]{$\rho(\abcvar[e]) \implies \abcvar[s] \in \abcattr[supp]$};
+	 % \node[left = of offer, xshift=.8cm, yshift=.3cm, fill=green!10]{$\abcvar[e] < \abcattr[qt]$};
+	 % \node[right = of offer, xshift=-.8cm, yshift=-.4cm, fill=green!10]{$\phi_{\abcval[confirm]}$}
+  \end{tikzpicture}
+\end{align}
+
+Distributed
+\begin{align}\label{abet:d}
+  \begin{tikzpicture}[node distance=.4cm and .6cm, scale=0.9, transform shape]
+	 \mkabcint{}{open}[C][][{
+		\abctuple[{\abcval[door],\abcval[o]}]
+	 }][{
+		\abctuple[{\abcval[door],\abcval[o]}]
+	 }][r][]
+	 ;
+	 \mkabcint{right = 2cm of open}{closed}[c][][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][r][]
+	 \mkbranch{open,closed}[branch][][]
+	 ;
+	 \mkabcint{below left = 2cm of open, xshift = 2.4cm}{fclosed}[r][][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][c][]
+	 ;
+	 \mkabcint{right = of fclosed}{straight}[r][][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][{
+		\abctuple[{\abcval[door], \abcval[c]}]
+	 }][r][]
+	 ;
+	 \mkbranch{fclosed,straight}[fbranch][][-1];
+	 \mknseq{open,fbranch};
+	 \mkabcint{right = of straight, xshift=-.35cm}{around}[r][][{
+		\abctuple[{\abcattr[id], \abcval[around]}]
+	 }][{
+		\abctuple[{\abcvar[r], \abcval[around]}]
+	 }][r][]
+	 ;
+	 \mknseq{closed,around};
+	 \mkmerge{fclosed,straight}[merge][][1]
+	 \mkmerge{merge,around}[merge'][][1.5]
+	 \mkloop[.3][-6.5]{branch}{merge'};
+  \end{tikzpicture}
+\end{align}
+
+
+  %%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
